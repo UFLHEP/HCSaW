@@ -2,6 +2,8 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
+#include <cmath>
+#include <boost/lexical_cast.hpp>
 
 #include "HiggsCSandWidth.cc"
 
@@ -11,122 +13,51 @@ int main()
 {
 
   ofstream fileOut;
-  string fileName_[6] = {"Total_cs.txt","GluGlu_cs.txt","VBF_cs.txt","WH_cs.txt","ZH_cs.txt","ttH_cs.txt"};
+  string fileName_[6] = {"Total_cs","GluGlu_cs","VBF_cs","WH_cs","ZH_cs","ttH_cs"};
+  int sqrts_[3] = {7,8,14};
 
   HiggsCSandWidth *myCSW = new HiggsCSandWidth();
 
-  for( int i = 0; i < 6; i++)
+  for (int s = 0; s < 3; s++)
     {
+      int sqrts = sqrts_[s];
+
+      for( int i = 0; i < 6; i++)
+	{
+	  string energy = boost::lexical_cast<string>(sqrts);
+	  string myFileName = fileName_[i]+"_"+energy+"TeV.txt";
+	  
+	  fileOut.open(myFileName.c_str());
+	  fileOut << " mH      CS   CSErr Plus%   CSErr Plus   CSErr Minus%  CSErr Minus " << endl;
+	  
+	  double mH;
+	  double CS;
+	  double CSErrPlusPercent, CSErrMinusPercent;
+	  double CSErrPlus, CSErrMinus;
+	  
+	  cout << sqrts <<"TeV  " << myFileName << endl;
+	  for( int j = 80; j <= 1000; j += 1)
+	    {
+	      
+    	      mH = j;
+	      CS = myCSW->HiggsCS(i,mH,sqrts);
+	      CSErrPlusPercent = myCSW->HiggsCSErrPlus(i,mH,sqrts)*100;
+	      CSErrPlus = CS+myCSW->HiggsCSErrPlus(i,mH,sqrts)*CS;
+	      CSErrMinusPercent = myCSW->HiggsCSErrMinus(i,mH,sqrts)*100;
+	      CSErrMinus = CS+myCSW->HiggsCSErrMinus(i,mH,sqrts)*CS;
+	      
+	     
+	      fileOut.width(6);
+	      fileOut << mH << "  " << CS << "  " << CSErrPlusPercent << "      " << CSErrPlus 
+		      << "        " << CSErrMinusPercent << "       " << CSErrMinus << endl;
+	      
+	    }
+	  
+	  fileOut.close();
+	  
+	}
       
-      fileOut.open(fileName_[i].c_str());
-      fileOut << " mH      CS   CSErr Plus%   CSErr Plus   CSErr Minus%  CSErr Minus " << endl;
-
-      double mH;
-      double CS;
-      double CSErrPlusPercent, CSErrMinusPercent;
-      double CSErrPlus, CSErrMinus;
-      double sqrts = 8;
- 
-      for( double j = 110; j < 140; j += 0.1)
-	{
-
-	  mH = j;
-	  CS = myCSW->HiggsCS(i,mH,sqrts);
-	  CSErrPlusPercent = myCSW->HiggsCSErrPlus(i,mH,sqrts)*100;
-	  CSErrPlus = CS+myCSW->HiggsCSErrPlus(i,mH,sqrts)*CS;
-	  CSErrMinusPercent = myCSW->HiggsCSErrMinus(i,mH,sqrts)*100;
-	  CSErrMinus = CS+myCSW->HiggsCSErrMinus(i,mH,sqrts)*CS;
-	  
-	  fileOut.width(6);
-	  fileOut << mH << "  " << CS << "  " << CSErrPlusPercent << "      " << CSErrPlus << "        " << CSErrMinusPercent << "       " << CSErrMinus << endl;
-
-	}
-
-
-
-      for( double k = 140; k < 160; k++ )
-	{
-
-          mH = k;
-          CS = myCSW->HiggsCS(i,mH,sqrts);
-          CSErrPlusPercent = myCSW->HiggsCSErrPlus(i,mH,sqrts)*100;
-          CSErrPlus = CS+myCSW->HiggsCSErrPlus(i,mH,sqrts)*CS;
-          CSErrMinusPercent = myCSW->HiggsCSErrMinus(i,mH,sqrts)*100;
-          CSErrMinus = CS+myCSW->HiggsCSErrMinus(i,mH,sqrts)*CS;
-	  
-	  fileOut.width(6);
-	  fileOut << mH << "  " << CS << "  " << CSErrPlusPercent << "      " << CSErrPlus << "        " << CSErrMinusPercent << "       " << CSErrMinus << endl;
-
-
-	}
-
-      for( double l = 160; l < 290; l += 2)
-	{
-          mH = l;
-          CS = myCSW->HiggsCS(i,mH,sqrts);
-          CSErrPlusPercent = myCSW->HiggsCSErrPlus(i,mH,sqrts)*100;
-          CSErrPlus = CS+myCSW->HiggsCSErrPlus(i,mH,sqrts)*CS;
-          CSErrMinusPercent = myCSW->HiggsCSErrMinus(i,mH,sqrts)*100;
-          CSErrMinus = CS+myCSW->HiggsCSErrMinus(i,mH,sqrts)*CS;
-
-	  fileOut.width(6);
-          fileOut << mH << "  " << CS << "  " << CSErrPlusPercent << "      " << CSErrPlus << "        " << CSErrMinusPercent << "       " << CSErrMinus << endl;
-
-
-	}
-
-      for( double m = 290; m < 350; m += 5)
-	{
-
-          mH = m;
-          CS = myCSW->HiggsCS(i,mH,sqrts);
-          CSErrPlusPercent = myCSW->HiggsCSErrPlus(i,mH,sqrts)*100;
-          CSErrPlus = CS+myCSW->HiggsCSErrPlus(i,mH,sqrts)*CS;
-          CSErrMinusPercent = myCSW->HiggsCSErrMinus(i,mH,sqrts)*100;
-          CSErrMinus = CS+myCSW->HiggsCSErrMinus(i,mH,sqrts)*CS;
-
-	  fileOut.width(6);
-          fileOut << mH << "  " << CS << "  " << CSErrPlusPercent << "      " << CSErrPlus << "        " << CSErrMinusPercent << "       " << CSErrMinus << endl;
-
-
-	}
-
-      for( double n = 350; n < 400; n += 10)
-	{
-
-          mH = n;
-          CS = myCSW->HiggsCS(i,mH,sqrts);
-          CSErrPlusPercent = myCSW->HiggsCSErrPlus(i,mH,sqrts)*100;
-          CSErrPlus = CS+myCSW->HiggsCSErrPlus(i,mH,sqrts)*CS;
-          CSErrMinusPercent = myCSW->HiggsCSErrMinus(i,mH,sqrts)*100;
-          CSErrMinus = CS+myCSW->HiggsCSErrMinus(i,mH,sqrts)*CS;
-
-	  fileOut.width(6);
-          fileOut << mH << "  " << CS << "  " << CSErrPlusPercent << "      " << CSErrPlus << "        " << CSErrMinusPercent << "       " << CSErrMinus << endl;
-
-
-	}
-
-      for( double q = 400; q <= 1000; q += 20 )
-	{
-
-          mH = q;
-          CS = myCSW->HiggsCS(i,mH,sqrts);
-          CSErrPlusPercent = myCSW->HiggsCSErrPlus(i,mH,sqrts)*100;
-          CSErrPlus = CS+myCSW->HiggsCSErrPlus(i,mH,sqrts)*CS;
-          CSErrMinusPercent = myCSW->HiggsCSErrMinus(i,mH,sqrts)*100;
-          CSErrMinus = CS+myCSW->HiggsCSErrMinus(i,mH,sqrts)*CS;
-
-	  fileOut.width(6);
-          fileOut << mH << "  " << CS << "  " << CSErrPlusPercent << "      " << CSErrPlus << "        " << CSErrMinusPercent << "       " << CSErrMinus << endl;
-
-
-	}
-
-      fileOut.close();
-
     }
-
 
 
 

@@ -20,111 +20,36 @@ int main()
 
   HiggsCSandWidth *myCSW = new HiggsCSandWidth();
 
+
   for( int i = 0; i < 25; i++)
     {
       
       fileOut.open(fileName_[i].c_str());
-      fileOut << " mH     Width   TotalCS    BR(H->ZZ)     BR("+channel[i]+")  " << endl;
+      fileOut << " mH     Width  BR("+channel[i]+")  BRErrUp%   BRErrUp   BRErrDn%   BRErrDn     " << endl;
 
-      double mH;
-      double Width;
-      double CS;
-      double BRHZZ;
-      double BRChan;
-      double sqrts = 7;
+      double mH, Width, BRChan, BRErrUpPer, BRErrDnPer, BRErrUp, BRErrDn;
 
-      for( double j = 110; j < 140; j += 0.5)
+      for( int j = 80; j <= 1000; j++)
 	{
 
 	  mH = j;
 	  Width = myCSW->HiggsWidth(0,mH);
-	  CS = myCSW->HiggsCS(0,mH,sqrts);
-	  BRHZZ = myCSW->HiggsBR(11,mH);
 	  BRChan = myCSW->HiggsBR(i+1,mH);
+	  BRErrUpPer = myCSW->HiggsBRerrPlus(i+1,mH)*100;
+	  BRErrUp = BRErrUpPer*BRChan+BRChan;
+	  BRErrDnPer = myCSW->HiggsBRerrMinus(i+1,mH)*100;
+	  BRErrDn = BRErrDnPer*BRChan+BRChan;
 	 
 
-	  fileOut << setw(6) << mH << " " << setw(6) << Width << "   " << setw(6) << CS << "   " << setw(6) << BRHZZ << "   " << setw(6) << BRChan << endl;
+	  fileOut.width(7);
+	  fileOut << mH << " " 
+		  << Width      << "   " << BRChan << "   " 
+		  << BRErrUpPer << "   " << BRErrUp << "   "  
+		  << BRErrDnPer << "   " << BRErrDn << "   "
+		  << endl;
 
 	}
 
-
-
-      for( double k = 140; k < 160; k++ )
-	{
-
-          mH = k;
-          Width = myCSW->HiggsWidth(0,mH);
-          CS = myCSW->HiggsCS(0,mH,sqrts);
-          BRHZZ = myCSW->HiggsBR(11,mH);
-          BRChan = myCSW->HiggsBR(i+1,mH);
-
-
-          fileOut << setw(6) << mH << " " << setw(6) << Width << "   " << setw(6) << CS << "   " << setw(6) << BRHZZ << "   " << setw(6) << BRChan << endl;
-
-
-
-	}
-
-      for( double l = 160; l < 290; l += 2)
-	{
-          mH = l;
-          Width = myCSW->HiggsWidth(0,mH);
-          CS = myCSW->HiggsCS(0,mH,sqrts);
-          BRHZZ = myCSW->HiggsBR(11,mH);
-          BRChan = myCSW->HiggsBR(i+1,mH);
-
-
-          fileOut << setw(6) << mH << " " << setw(6) << Width << "   " << setw(6) << CS << "   " << setw(6) << BRHZZ << "   " << setw(6) << BRChan << endl;
-
-
-	}
-
-      for( double m = 290; m < 350; m += 5)
-	{
-
-          mH = m;
-          Width = myCSW->HiggsWidth(0,mH);
-          CS = myCSW->HiggsCS(0,mH,sqrts);
-          BRHZZ = myCSW->HiggsBR(11,mH);
-          BRChan = myCSW->HiggsBR(i+1,mH);
-
-
-          fileOut << setw(6) << mH << " " << setw(6) << Width << " " << setw(6) << CS << " " << setw(6) << BRHZZ << " " << setw(6) << BRChan << endl;
-
-
-
-	}
-
-      for( double n = 350; n < 400; n += 10)
-	{
-
-          mH = n;
-          Width = myCSW->HiggsWidth(0,mH);
-          CS = myCSW->HiggsCS(0,mH,sqrts);
-          BRHZZ = myCSW->HiggsBR(11,mH);
-          BRChan = myCSW->HiggsBR(i+1,mH);
-
-
-          fileOut << setw(6) << mH << " " << setw(6) << Width << "   " << setw(6) << CS << "   " << setw(6) << BRHZZ << "   " << setw(6) << BRChan << endl;
-
-
-
-	}
-
-      for( double q = 400; q <= 1000; q += 20 )
-	{
-
-          mH = q;
-          Width = myCSW->HiggsWidth(0,mH);
-          CS = myCSW->HiggsCS(0,mH,sqrts);
-          BRHZZ = myCSW->HiggsBR(11,mH);
-          BRChan = myCSW->HiggsBR(i+1,mH);
-
-
-          fileOut << setw(6) << mH << " " << setw(6) << Width << "   " << setw(6) << CS << "   " << setw(6) << BRHZZ << "   " << setw(6) << BRChan << endl;
-
-
-	}
 
       fileOut.close();
 
