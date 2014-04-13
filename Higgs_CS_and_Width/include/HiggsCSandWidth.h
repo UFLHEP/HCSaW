@@ -65,15 +65,24 @@ class HiggsCSandWidth
   double HiggsCSpdfErrMinus(int ID, double mH, double sqrts);
   double HiggsWidth(int ID,double mH);
   double HiggsBR(int ID,double mH);
+  double HiggsBRerrPlus(int ID,double mH);
+  double HiggsBRerrMinus(int ID,double mH);
   double getInterpXS(int sqrts, int ID, double mH, int maxI, double mhArray[][6], double varArray[][6]);
+  double getInterpBRWidth(bool width, int ID, double mH, int maxI, double mhArray[], double varArray[][26]);
 
  private:
 
   std::string fileName;
   
   double scratchMass;
-  double mass_BR[217];
-  double BR[26][217];
+  double mass_BR[311];
+  double BR[311][26];
+
+  double mass_BRerrPlus[311];
+  double BRerrPlus[311][26];
+
+  double mass_BRerrMinus[311];
+  double BRerrMinus[311][26];
 
   double mass_XS_7tev[311][6];
   double CS_7tev[311][6];
