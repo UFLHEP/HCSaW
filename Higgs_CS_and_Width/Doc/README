@@ -27,6 +27,11 @@ Sep 13, 2013
 
 ***NEW NUMBERS FROM YR3 UPDATED FOR XS... STILL WAITING ON BR***
 
+April 13, 2014
+
+***LATEST BR AND BR UNCERTAINTIES FROM YR3 ADDED***
+***ADDED FUNCTIONS FOR BR UNC UP AND DOWN***
+***ERROR ON TOTAL CS ADDED AS QUADRATURE OF ALL ERRORS --- MAY NOT BE MOST ACCURATE WAY TO DO THIS***
 
 All XS are in pb.
 All Widths are in GeV.
@@ -42,8 +47,7 @@ e.g.   HiggsCSandWidth *myCSW = new HiggsCSandWidth();
 
 Then call the function you want
 
-e.g.    bool spline = true;
-	double TotalWidth = myCSW->HiggsWidth(0,<mH>);
+e.g.   double TotalWidth = myCSW->HiggsWidth(0,<mH>);
 
 The following function are included:
 
@@ -57,6 +61,17 @@ The following function are included:
   	double HiggsCSscaleErrMinus(int ID, double mH, double sqrts);
   	double HiggsCSpdfErrPlus(int ID, double mH, double sqrts);
   	double HiggsCSpdfErrMinus(int ID, double mH, double sqrts); 
+
+  For BR
+	double HiggsBR(int ID,double mH);
+
+  For BR errors
+	double HiggsBRerrPlus(int ID,double mH);
+	double HiggsBRerrMinus(int ID,double mH);
+
+  For Width
+	double HiggsWidth(int ID,double mH);
+
 
 
 ID's for CS functions are
@@ -107,8 +122,8 @@ ID's for Width/BR are
   /**************************************************/
 
 
-NOTE: Error on *total* cross section is not given as it requires more 
-      complicated calculation. All errors returned by error functions
+NOTE: Error on *total* cross section is given as quadrature of all errors. 
+      All errors returned by error functions
       are relative. i.e. for 10.0% error, 0.1 is returned.
       Plus error functions return *positive*.
       Minus error functions return *negative*.
