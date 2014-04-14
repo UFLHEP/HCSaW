@@ -22,11 +22,36 @@ using namespace std;
 HiggsCSandWidth::HiggsCSandWidth(std::string report = "YR3", std::string fileLoc = "../txtFiles")
 {
 
+  max_MH_YR2 = 1000;
+  min_MH_YR2 = 90;
+  
+  max_MH_YR3 = 1000; 
+  min_MH_YR3 = 80;
+
+  max_MH_YR2_Assoc = 300;
+  max_MH_YR3_Assoc = 400;
+
+  Report = report;
+
   if( report != "YR3" && report != "YR2")
     {
       cout << "Unknown report! Please choose YR3 or YR2." << endl;
       exit(1);
     }
+
+  if( report == "YR3" )
+    {
+      max_MH = max_MH_YR3;
+      min_MH = min_MH_YR3;
+      max_MH_Assoc = max_MH_YR3_Assoc;
+    }
+  if( report == "YR2" )
+    {
+      max_MH = max_MH_YR2; 
+      min_MH = min_MH_YR2;
+      max_MH_Assoc = max_MH_YR2_Assoc;
+    }
+
 
   ifstream file;
 
@@ -369,11 +394,11 @@ double HiggsCSandWidth::HiggsCS(int ID, double mH, double sqrts){
   // If Ecm is not 7 or 8 TeV return -1
   if(sqrts != 7 && sqrts != 8 && sqrts != 14) return -1;
   //Don't interpolate btw 0 and numbers for mH 400
-  if(ID > ID_VBF && mH > 400) return 0;
+  if(ID > ID_VBF && mH > max_MH_Assoc) return 0;
 
   // If mH is out of range return -1                                           
   // else find what array number to read         
-  if( mH < 80 || mH > 1000){ return -1;}
+  if( mH < min_MH || mH > max_MH){ return -1;}
   else{
     
     if(sqrts == 7)
@@ -438,11 +463,11 @@ double HiggsCSandWidth::HiggsCSErrPlus(int ID, double mH, double sqrts){
   // If Ecm is not 7 or 8 TeV return -1                                                                                                
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                        
-  if(ID > ID_VBF && mH > 400){return 0;}
+  if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
 
   // If mH is out of range return -1                                                                        
   // else find what array number to read                                          
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
 
     if(sqrts == 7)
@@ -515,12 +540,12 @@ double HiggsCSandWidth::HiggsCSErrMinus(int ID, double mH, double sqrts){
   // If Ecm is not 7 or 8 TeV return -1                                                                                           
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                                                        
-  if(ID > ID_VBF && mH > 400){return 0;}
+  if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
 
 
   // If mH is out of range return -1                                                                           
   // else find what array number to read                                                                 
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
 
     if(sqrts == 7)
@@ -594,11 +619,11 @@ double HiggsCSandWidth::HiggsCSscaleErrPlus(int ID, double mH, double sqrts){
   // If Ecm is not 7 or 8 TeV return -1                                                
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                                           
-  if(ID > ID_VBF && mH > 400){return 0;}
+  if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
 
   // If mH is out of range return -1                                                         
   // else find what array number to read                                                      
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
     
     
@@ -673,12 +698,12 @@ double HiggsCSandWidth::HiggsCSscaleErrMinus(int ID, double mH, double sqrts){
   // If Ecm is not 7 or 8 TeV return -1                                                               
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                                   
-  if(ID > ID_VBF && mH > 400){return 0;}
+  if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
 
 
   // If mH is out of range return -1                        
   // else find what array number to read                              
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
 
     if(sqrts == 7)
@@ -751,11 +776,11 @@ double HiggsCSandWidth::HiggsCSpdfErrPlus(int ID, double mH, double sqrts){
   // If Ecm is not 7 or 8 TeV return -1                                                                                         
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                                                  
-  if(ID > ID_VBF && mH > 400){return 0;}
+  if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
 
   // If mH is out of range return -1                                                                                  
   // else find what array number to read                                                              
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
 
     if(sqrts == 7)
@@ -830,12 +855,12 @@ double HiggsCSandWidth::HiggsCSpdfErrMinus(int ID, double mH, double sqrts){
   // If Ecm is not 7 or 8 TeV return -1                                                                 
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400             
-  if(ID > ID_VBF && mH > 400){return 0;}
+  if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
 
 
   // If mH is out of range return -1                                                              
   // else find what array number to read                            
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
 
     if(sqrts == 7)
@@ -932,7 +957,7 @@ double HiggsCSandWidth::HiggsWidth(int ID, double mH){
 
   // If mH is out of range return -1                                            
   // else find what array number to read                                        
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
 
     Width = getInterpBRWidth(true, ID, mH, N_BR, mass_BR, BR);
@@ -986,7 +1011,7 @@ double HiggsCSandWidth::HiggsBR(int ID, double mH){
 
   // If mH is out of range return -1                                            
   // else find what array number to read                                        
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
 
     BranchRatio = getInterpBRWidth(false, ID, mH, N_BR, mass_BR, BR);
@@ -1034,13 +1059,14 @@ double HiggsCSandWidth::HiggsBRerrPlus(int ID, double mH){
 
   double BRunc = 0;
 
+  if( Report == "YR2" ){ return 0;}
+
   // If ID is unavailable return -1                                           
   if(ID > 25 || ID < 1){return -1;}
 
-
   // If mH is out of range return -1                                            
   // else find what array number to read                                        
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
 
     BRunc = getInterpBRWidth(false, ID, mH, N_BR, mass_BRerrPlus, BRerrPlus);
@@ -1088,13 +1114,14 @@ double HiggsCSandWidth::HiggsBRerrMinus(int ID, double mH){
 
   double BRunc = 0;
 
+  if( Report == "YR2" ){return 0;}
+
   // If ID is unavailable return -1                                           
   if(ID > 25 || ID < 1){return -1;}
 
-
   // If mH is out of range return -1                                            
   // else find what array number to read                                        
-  if( mH < 80 || mH > 1000){return -1;}
+  if( mH < min_MH || mH > max_MH){return -1;}
   else{
 
     BRunc = getInterpBRWidth(false, ID, mH, N_BR, mass_BRerrMinus, BRerrMinus);
