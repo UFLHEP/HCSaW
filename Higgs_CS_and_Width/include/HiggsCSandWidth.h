@@ -42,7 +42,7 @@
 /*         University of Florida                          */
 /*         snowball@phys.ufl.edu                          */
 /*                                                        */
-/*       Last Update: Sep 13, 2014                        */
+/*       Last Update: April 14, 2014                      */
 /*                                                        */
 /**********************************************************/
 
@@ -72,44 +72,44 @@ class HiggsCSandWidth
 
  private:
 
-  std::string fileName;
+  std::string fileName, fileLoc;
   
   double scratchMass;
-  double mass_BR[311];
-  double BR[311][26];
+  double mass_BR[500];
+  double BR[500][26];
 
-  double mass_BRerrPlus[311];
-  double BRerrPlus[311][26];
+  double mass_BRerrPlus[500];
+  double BRerrPlus[500][26];
 
-  double mass_BRerrMinus[311];
-  double BRerrMinus[311][26];
+  double mass_BRerrMinus[500];
+  double BRerrMinus[500][26];
 
-  double mass_XS_7tev[311][6];
-  double CS_7tev[311][6];
-  double CSerrPlus_7tev[311][6];
-  double CSerrMinus_7tev[311][6];
-  double CSscaleErrPlus_7tev[311][6];
-  double CSscaleErrMinus_7tev[311][6];
-  double CSpdfErrPlus_7tev[311][6];
-  double CSpdfErrMinus_7tev[311][6];
+  double mass_XS_7tev[500][6];
+  double CS_7tev[500][6];
+  double CSerrPlus_7tev[500][6];
+  double CSerrMinus_7tev[500][6];
+  double CSscaleErrPlus_7tev[500][6];
+  double CSscaleErrMinus_7tev[500][6];
+  double CSpdfErrPlus_7tev[500][6];
+  double CSpdfErrMinus_7tev[500][6];
 
-  double mass_XS_8tev[311][6];
-  double CS_8tev[311][6];
-  double CSerrPlus_8tev[311][6];
-  double CSerrMinus_8tev[311][6];
-  double CSscaleErrPlus_8tev[311][6];
-  double CSscaleErrMinus_8tev[311][6];
-  double CSpdfErrPlus_8tev[311][6];
-  double CSpdfErrMinus_8tev[311][6];
+  double mass_XS_8tev[500][6];
+  double CS_8tev[500][6];
+  double CSerrPlus_8tev[500][6];
+  double CSerrMinus_8tev[500][6];
+  double CSscaleErrPlus_8tev[500][6];
+  double CSscaleErrMinus_8tev[500][6];
+  double CSpdfErrPlus_8tev[500][6];
+  double CSpdfErrMinus_8tev[500][6];
 
-  double mass_XS_14tev[223][6];
-  double CS_14tev[223][6];
-  double CSerrPlus_14tev[223][6];
-  double CSerrMinus_14tev[223][6];
-  double CSscaleErrPlus_14tev[223][6];
-  double CSscaleErrMinus_14tev[223][6];
-  double CSpdfErrPlus_14tev[223][6];
-  double CSpdfErrMinus_14tev[223][6];
+  double mass_XS_14tev[500][6];
+  double CS_14tev[500][6];
+  double CSerrPlus_14tev[500][6];
+  double CSerrMinus_14tev[500][6];
+  double CSscaleErrPlus_14tev[500][6];
+  double CSscaleErrMinus_14tev[500][6];
+  double CSpdfErrPlus_14tev[500][6];
+  double CSpdfErrMinus_14tev[500][6];
 
   int N_BR;
   int N_CS_7tev[6];  
@@ -117,6 +117,8 @@ class HiggsCSandWidth
   int N_CS_14tev[6];  
 
 
+  int searchArray(int ID, int maxI, double mhArray[][6], double mh);
+  int searchArray(int ID, int maxI, double mhArray[], double mh);
 
 };
 
