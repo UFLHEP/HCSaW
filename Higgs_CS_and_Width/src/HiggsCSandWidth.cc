@@ -19,7 +19,7 @@
 
 using namespace std;
 
-HiggsCSandWidth::HiggsCSandWidth(std::string report = "YR3")
+HiggsCSandWidth::HiggsCSandWidth(std::string report = "YR3", std::string fileLoc = "../txtFiles")
 {
 
   if( report != "YR3" && report != "YR2")
@@ -31,7 +31,7 @@ HiggsCSandWidth::HiggsCSandWidth(std::string report = "YR3")
   ifstream file;
 
   int k = 0;
-  fileLoc = "../txtFiles/"+report;
+  fileLoc += "/"+report;
   // ---------------- Read BR into memory ------------------ //         
   fileName = fileLoc+"/HiggsBR_Official.txt";
   file.open(fileName.c_str());
@@ -47,51 +47,81 @@ HiggsCSandWidth::HiggsCSandWidth(std::string report = "YR3")
     }
   N_BR = k;
   file.close();
+
   
   k = 0;
   fileName = fileLoc+"/HiggsBR_UpError_Official.txt";
   file.open(fileName.c_str());
-  if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  while (file.good())
+  if( report == "YR3")
     {
-      
-      file >> mass_BRerrPlus[k] >> BRerrPlus[k][1] >> BRerrPlus[k][2] >> BRerrPlus[k][3] >> BRerrPlus[k][4] 
-	   >> BRerrPlus[k][5] >> BRerrPlus[k][6] >> BRerrPlus[k][7] >> BRerrPlus[k][8] >> BRerrPlus[k][9]
-	   >> BRerrPlus[k][10] >> BRerrPlus[k][11] >> BRerrPlus[k][12] >> BRerrPlus[k][13] >> BRerrPlus[k][14] 
-	   >> BRerrPlus[k][15] >> BRerrPlus[k][16] >> BRerrPlus[k][17] >> BRerrPlus[k][18] >> BRerrPlus[k][19] 
-	   >> BRerrPlus[k][20] >> BRerrPlus[k][21] >> BRerrPlus[k][22] >> BRerrPlus[k][23] >> BRerrPlus[k][24] >> BRerrPlus[k][25];
-      k++;
-  }
-  if( k != N_BR ){cout << "N_BR does not match between HiggsBR_UpError_Official.txt and HiggsBR_Official.txt!" << endl; exit(1);}
-  file.close();
-      
+      if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
+      while (file.good())
+	{
+	  
+	  file >> mass_BRerrPlus[k] >> BRerrPlus[k][1] >> BRerrPlus[k][2] >> BRerrPlus[k][3] >> BRerrPlus[k][4] 
+	       >> BRerrPlus[k][5] >> BRerrPlus[k][6] >> BRerrPlus[k][7] >> BRerrPlus[k][8] >> BRerrPlus[k][9]
+	       >> BRerrPlus[k][10] >> BRerrPlus[k][11] >> BRerrPlus[k][12] >> BRerrPlus[k][13] >> BRerrPlus[k][14] 
+	       >> BRerrPlus[k][15] >> BRerrPlus[k][16] >> BRerrPlus[k][17] >> BRerrPlus[k][18] >> BRerrPlus[k][19] 
+	       >> BRerrPlus[k][20] >> BRerrPlus[k][21] >> BRerrPlus[k][22] >> BRerrPlus[k][23] >> BRerrPlus[k][24] >> BRerrPlus[k][25];
+	  k++;
+	}
+      if( k != N_BR ){cout << "N_BR does not match between HiggsBR_UpError_Official.txt and HiggsBR_Official.txt!" << endl; exit(1);}
+      file.close();
+    }
+  else
+    {
+      for(int l = 0; l < N_BR; l++)
+	{
+	  mass_BRerrPlus[l] = mass_BR[k];
+	  for(int m = 0; m < 25; m++)
+	    {
+	      BRerrPlus[l][m] = 0;
+	      BRerrMinus[l][m] = 0;
+	    }	
+	}
+    }
+
   k = 0;
   fileName = fileLoc+"/HiggsBR_DnError_Official.txt";
   file.open(fileName.c_str());
-  if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  while (file.good())
+  if( report == "YR3" )
     {
-      
-      file >> mass_BRerrMinus[k] >> BRerrMinus[k][1] >> BRerrMinus[k][2] >> BRerrMinus[k][3] >> BRerrMinus[k][4] 
-	   >> BRerrMinus[k][5] >> BRerrMinus[k][6] >> BRerrMinus[k][7] >> BRerrMinus[k][8] >> BRerrMinus[k][9]
-	   >> BRerrMinus[k][10] >> BRerrMinus[k][11] >> BRerrMinus[k][12] >> BRerrMinus[k][13] >> BRerrMinus[k][14] 
-	   >> BRerrMinus[k][15] >> BRerrMinus[k][16] >> BRerrMinus[k][17] >> BRerrMinus[k][18] >> BRerrMinus[k][19] 
-	   >> BRerrMinus[k][20] >> BRerrMinus[k][21] >> BRerrMinus[k][22] >> BRerrMinus[k][23] >> BRerrMinus[k][24] >> BRerrMinus[k][25];
-      k++;
+      if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
+      while (file.good())
+	{
+	  
+	  file >> mass_BRerrMinus[k] >> BRerrMinus[k][1] >> BRerrMinus[k][2] >> BRerrMinus[k][3] >> BRerrMinus[k][4] 
+	       >> BRerrMinus[k][5] >> BRerrMinus[k][6] >> BRerrMinus[k][7] >> BRerrMinus[k][8] >> BRerrMinus[k][9]
+	       >> BRerrMinus[k][10] >> BRerrMinus[k][11] >> BRerrMinus[k][12] >> BRerrMinus[k][13] >> BRerrMinus[k][14] 
+	       >> BRerrMinus[k][15] >> BRerrMinus[k][16] >> BRerrMinus[k][17] >> BRerrMinus[k][18] >> BRerrMinus[k][19] 
+	       >> BRerrMinus[k][20] >> BRerrMinus[k][21] >> BRerrMinus[k][22] >> BRerrMinus[k][23] >> BRerrMinus[k][24] >> BRerrMinus[k][25];
+	  k++;
+	}
+      if( k != N_BR ){cout << "N_BR does not match between HiggsBR_DnError_Official.txt and HiggsBR_Official.txt!" << endl;exit(1);}
+      file.close();
     }
-  if( k != N_BR ){cout << "N_BR does not match between HiggsBR_DnError_Official.txt and HiggsBR_Official.txt!" << endl;exit(1);}
-  file.close();
-      
+
   k = 0;
   fileName = fileLoc+"/HiggsTotalWidth.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  while (file.good())
+  if( report == "YR3" )
     {
-      
-      file >> scratchMass >> BR[k][0] >> BRerrPlus[k][0] >> BRerrMinus[k][0];
-      k++;
+      while (file.good())
+	{
+	  
+	  file >> scratchMass >> BR[k][0] >> BRerrPlus[k][0] >> BRerrMinus[k][0];
+	  k++;
+	}
     }
+  else{
+    while (file.good())
+      {
+	
+	file >> scratchMass >> BR[k][0];
+	k++;
+      }
+  }
   if( k != N_BR ){cout << "N_BR does not match between HiggsTotalWidth.txt and HiggsBR_Official.txt!" << endl;exit(1);}
   file.close();
       
