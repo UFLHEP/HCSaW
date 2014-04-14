@@ -72,8 +72,16 @@ class HiggsCSandWidth
 
  private:
 
-  std::string fileName, fileLoc;
+  std::string fileName, fileLoc, Report;
   
+  double max_MH_YR2, min_MH_YR2;
+  double max_MH_YR3, min_MH_YR3;
+
+  double max_MH_YR2_Assoc, max_MH_YR3_Assoc;
+
+  double max_MH, min_MH;
+  double max_MH_Assoc;
+
   double scratchMass;
   double mass_BR[500];
   double BR[500][26];
