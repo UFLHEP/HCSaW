@@ -33,6 +33,14 @@ April 13, 2014
 ***ADDED FUNCTIONS FOR BR UNC UP AND DOWN***
 ***ERROR ON TOTAL CS ADDED AS QUADRATURE OF ALL ERRORS --- MAY NOT BE MOST ACCURATE WAY TO DO THIS***
 
+April 13, 2014
+
+***YR2 NUMBER FUNCTIONALITY ADDED***
+***CONSTRUCTOR FORMAT UPDATED***
+
+
+----------------------------------------------------
+
 All XS are in pb.
 All Widths are in GeV.
 
@@ -43,7 +51,7 @@ See the test section for sample Makefile.
 There are functions for Higgs width, cross sections, and cross section errors (combined, scale, pdf).
 To use in your program simple declare 
 
-e.g.   HiggsCSandWidth *myCSW = new HiggsCSandWidth();
+e.g.   HiggsCSandWidth *myCSW = new HiggsCSandWidth("YR3","../txtFiles");
 
 Then call the function you want
 
