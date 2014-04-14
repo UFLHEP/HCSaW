@@ -19,247 +19,295 @@
 
 using namespace std;
 
-HiggsCSandWidth::HiggsCSandWidth(std::string fileLoc = "../txtFiles")
+HiggsCSandWidth::HiggsCSandWidth(std::string report = "YR3")
 {
 
-  N_BR = 311;
-
-  N_CS_7tev[ID_ggToH] = 311;
-  N_CS_7tev[ID_VBF] = 311;
-  N_CS_7tev[ID_WH]  = 281;
-  N_CS_7tev[ID_ZH]  = 281;
-  N_CS_7tev[ID_ttH] = 281;
-
-  N_CS_8tev[ID_ggToH] = 311;
-  N_CS_8tev[ID_VBF] = 311;
-  N_CS_8tev[ID_WH]  = 281;
-  N_CS_8tev[ID_ZH]  = 281;
-  N_CS_8tev[ID_ttH] = 281;
-
-  N_CS_14tev[ID_ggToH] = 50;
-  N_CS_14tev[ID_VBF] = 50;
-  N_CS_14tev[ID_WH]  = 33;
-  N_CS_14tev[ID_ZH]  = 33;
-  N_CS_14tev[ID_ttH] = 33;
+  if( report != "YR3" && report != "YR2")
+    {
+      cout << "Unknown report! Please choose YR3 or YR2." << endl;
+      exit(1);
+    }
 
   ifstream file;
+
+  int k = 0;
+  fileLoc = "../txtFiles/"+report;
   // ---------------- Read BR into memory ------------------ //         
   fileName = fileLoc+"/HiggsBR_Official.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName << endl; exit(1);}
-  for(int k = 0; k < N_BR; k++){
-
-    file >> mass_BR[k] >> BR[k][1] >> BR[k][2] >> BR[k][3] >> BR[k][4] >> BR[k][5] >> BR[k][6] >> BR[k][7] >> BR[k][8] >> BR[k][9]
-	 >> BR[k][10] >> BR[k][11] >> BR[k][12] >> BR[k][13] >> BR[k][14] >> BR[k][15] >> BR[k][16] >> BR[k][17] >> BR[k][18] >> BR[k][19] >> BR[k][20]
-	 >> BR[k][21] >> BR[k][22] >> BR[k][23] >> BR[k][24] >> BR[k][25];
-
-
-  }
+  while (file.good())
+    {
+      
+      file >> mass_BR[k] >> BR[k][1] >> BR[k][2] >> BR[k][3] >> BR[k][4] >> BR[k][5] >> BR[k][6] >> BR[k][7] >> BR[k][8] >> BR[k][9]
+	   >> BR[k][10] >> BR[k][11] >> BR[k][12] >> BR[k][13] >> BR[k][14] >> BR[k][15] >> BR[k][16] >> BR[k][17] >> BR[k][18] >> BR[k][19] >> BR[k][20]
+	   >> BR[k][21] >> BR[k][22] >> BR[k][23] >> BR[k][24] >> BR[k][25];
+      k++;
+      
+    }
+  N_BR = k;
   file.close();
-
-
+  
+  k = 0;
   fileName = fileLoc+"/HiggsBR_UpError_Official.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_BR; k++){
-
-    file >> mass_BRerrPlus[k] >> BRerrPlus[k][1] >> BRerrPlus[k][2] >> BRerrPlus[k][3] >> BRerrPlus[k][4] 
-	 >> BRerrPlus[k][5] >> BRerrPlus[k][6] >> BRerrPlus[k][7] >> BRerrPlus[k][8] >> BRerrPlus[k][9]
-	 >> BRerrPlus[k][10] >> BRerrPlus[k][11] >> BRerrPlus[k][12] >> BRerrPlus[k][13] >> BRerrPlus[k][14] 
-	 >> BRerrPlus[k][15] >> BRerrPlus[k][16] >> BRerrPlus[k][17] >> BRerrPlus[k][18] >> BRerrPlus[k][19] 
-	 >> BRerrPlus[k][20] >> BRerrPlus[k][21] >> BRerrPlus[k][22] >> BRerrPlus[k][23] >> BRerrPlus[k][24] >> BRerrPlus[k][25];
-
-
+  while (file.good())
+    {
+      
+      file >> mass_BRerrPlus[k] >> BRerrPlus[k][1] >> BRerrPlus[k][2] >> BRerrPlus[k][3] >> BRerrPlus[k][4] 
+	   >> BRerrPlus[k][5] >> BRerrPlus[k][6] >> BRerrPlus[k][7] >> BRerrPlus[k][8] >> BRerrPlus[k][9]
+	   >> BRerrPlus[k][10] >> BRerrPlus[k][11] >> BRerrPlus[k][12] >> BRerrPlus[k][13] >> BRerrPlus[k][14] 
+	   >> BRerrPlus[k][15] >> BRerrPlus[k][16] >> BRerrPlus[k][17] >> BRerrPlus[k][18] >> BRerrPlus[k][19] 
+	   >> BRerrPlus[k][20] >> BRerrPlus[k][21] >> BRerrPlus[k][22] >> BRerrPlus[k][23] >> BRerrPlus[k][24] >> BRerrPlus[k][25];
+      k++;
   }
+  if( k != N_BR ){cout << "N_BR does not match between HiggsBR_UpError_Official.txt and HiggsBR_Official.txt!" << endl; exit(1);}
   file.close();
-
+      
+  k = 0;
   fileName = fileLoc+"/HiggsBR_DnError_Official.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_BR; k++){
-
-    file >> mass_BRerrMinus[k] >> BRerrMinus[k][1] >> BRerrMinus[k][2] >> BRerrMinus[k][3] >> BRerrMinus[k][4] 
-	 >> BRerrMinus[k][5] >> BRerrMinus[k][6] >> BRerrMinus[k][7] >> BRerrMinus[k][8] >> BRerrMinus[k][9]
-	 >> BRerrMinus[k][10] >> BRerrMinus[k][11] >> BRerrMinus[k][12] >> BRerrMinus[k][13] >> BRerrMinus[k][14] 
-	 >> BRerrMinus[k][15] >> BRerrMinus[k][16] >> BRerrMinus[k][17] >> BRerrMinus[k][18] >> BRerrMinus[k][19] 
-	 >> BRerrMinus[k][20] >> BRerrMinus[k][21] >> BRerrMinus[k][22] >> BRerrMinus[k][23] >> BRerrMinus[k][24] >> BRerrMinus[k][25];
-
-
-  }
+  while (file.good())
+    {
+      
+      file >> mass_BRerrMinus[k] >> BRerrMinus[k][1] >> BRerrMinus[k][2] >> BRerrMinus[k][3] >> BRerrMinus[k][4] 
+	   >> BRerrMinus[k][5] >> BRerrMinus[k][6] >> BRerrMinus[k][7] >> BRerrMinus[k][8] >> BRerrMinus[k][9]
+	   >> BRerrMinus[k][10] >> BRerrMinus[k][11] >> BRerrMinus[k][12] >> BRerrMinus[k][13] >> BRerrMinus[k][14] 
+	   >> BRerrMinus[k][15] >> BRerrMinus[k][16] >> BRerrMinus[k][17] >> BRerrMinus[k][18] >> BRerrMinus[k][19] 
+	   >> BRerrMinus[k][20] >> BRerrMinus[k][21] >> BRerrMinus[k][22] >> BRerrMinus[k][23] >> BRerrMinus[k][24] >> BRerrMinus[k][25];
+      k++;
+    }
+  if( k != N_BR ){cout << "N_BR does not match between HiggsBR_DnError_Official.txt and HiggsBR_Official.txt!" << endl;exit(1);}
   file.close();
-
+      
+  k = 0;
   fileName = fileLoc+"/HiggsTotalWidth.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_BR; k++){
-
-    file >> scratchMass >> BR[k][0] >> BRerrPlus[k][0] >> BRerrMinus[k][0];
-
-  }
+  while (file.good())
+    {
+      
+      file >> scratchMass >> BR[k][0] >> BRerrPlus[k][0] >> BRerrMinus[k][0];
+      k++;
+    }
+  if( k != N_BR ){cout << "N_BR does not match between HiggsTotalWidth.txt and HiggsBR_Official.txt!" << endl;exit(1);}
   file.close();
-
-  // ---------------- Read 8 TeV CS into memory ------------------ //         
+      
+  // ---------------- Read 7 TeV CS into memory ------------------ //         
+  k = 0;
   fileName = fileLoc+"/7TeV-ggH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_7tev[ID_ggToH]; k++){
-
-    file >> mass_XS_7tev[k][ID_ggToH] >> CS_7tev[k][ID_ggToH] >> CSerrPlus_7tev[k][ID_ggToH] >> CSerrMinus_7tev[k][ID_ggToH] 
-	 >> CSscaleErrPlus_7tev[k][ID_ggToH] >> CSscaleErrMinus_7tev[k][ID_ggToH] >> CSpdfErrPlus_7tev[k][ID_ggToH] >> CSpdfErrMinus_7tev[k][ID_ggToH];
-  
-  }
+  while (file.good())
+    {
+      
+      file >> mass_XS_7tev[k][ID_ggToH] >> CS_7tev[k][ID_ggToH] >> CSerrPlus_7tev[k][ID_ggToH] >> CSerrMinus_7tev[k][ID_ggToH] 
+	   >> CSscaleErrPlus_7tev[k][ID_ggToH] >> CSscaleErrMinus_7tev[k][ID_ggToH] >> CSpdfErrPlus_7tev[k][ID_ggToH] >> CSpdfErrMinus_7tev[k][ID_ggToH];
+      k++;
+    }
+  N_CS_7tev[ID_ggToH] = k;
   file.close();
 
+  k = 0;
   fileName = fileLoc+"/7TeV-vbfH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_7tev[ID_VBF]; k++){
-
-    file >> mass_XS_7tev[k][ID_VBF] >> CS_7tev[k][ID_VBF] >> CSerrPlus_7tev[k][ID_VBF] >> CSerrMinus_7tev[k][ID_VBF] >> CSscaleErrPlus_7tev[k][ID_VBF]
-	 >> CSscaleErrMinus_7tev[k][ID_VBF] >> CSpdfErrPlus_7tev[k][ID_VBF] >> CSpdfErrMinus_7tev[k][ID_VBF];
-
-  }
+  while (file.good())
+    {
+      
+      file >> mass_XS_7tev[k][ID_VBF] >> CS_7tev[k][ID_VBF] >> CSerrPlus_7tev[k][ID_VBF] >> CSerrMinus_7tev[k][ID_VBF] >> CSscaleErrPlus_7tev[k][ID_VBF]
+	   >> CSscaleErrMinus_7tev[k][ID_VBF] >> CSpdfErrPlus_7tev[k][ID_VBF] >> CSpdfErrMinus_7tev[k][ID_VBF];
+      k++;
+    }
+  N_CS_7tev[ID_VBF] = k;
   file.close();
-
+      
+  k = 0;
   fileName = fileLoc+"/7TeV-ttH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_7tev[ID_ttH]; k++){
-
-    file >> mass_XS_7tev[k][ID_ttH] >> CS_7tev[k][ID_ttH] >> CSerrPlus_7tev[k][ID_ttH] >> CSerrMinus_7tev[k][ID_ttH] >> CSscaleErrPlus_7tev[k][ID_ttH]
-	 >> CSscaleErrMinus_7tev[k][ID_ttH] >> CSpdfErrPlus_7tev[k][ID_ttH] >> CSpdfErrMinus_7tev[k][ID_ttH];
-
-  }
+  while (file.good())
+    {
+      
+      file >> mass_XS_7tev[k][ID_ttH] >> CS_7tev[k][ID_ttH] >> CSerrPlus_7tev[k][ID_ttH] >> CSerrMinus_7tev[k][ID_ttH] >> CSscaleErrPlus_7tev[k][ID_ttH]
+	   >> CSscaleErrMinus_7tev[k][ID_ttH] >> CSpdfErrPlus_7tev[k][ID_ttH] >> CSpdfErrMinus_7tev[k][ID_ttH];
+      k++;
+    }
+  N_CS_7tev[ID_ttH] = k; 
   file.close();
-
+      
+  k = 0;
   fileName = fileLoc+"/7TeV-ZH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_7tev[ID_ZH]; k++){
-
-    file >> mass_XS_7tev[k][ID_ZH] >> CS_7tev[k][ID_ZH] >> CSerrPlus_7tev[k][ID_ZH] >> CSerrMinus_7tev[k][ID_ZH] >> CSscaleErrPlus_7tev[k][ID_ZH]
-	 >> CSscaleErrMinus_7tev[k][ID_ZH] >> CSpdfErrPlus_7tev[k][ID_ZH] >> CSpdfErrMinus_7tev[k][ID_ZH];
-  }
+  while (file.good())
+    {
+      
+      file >> mass_XS_7tev[k][ID_ZH] >> CS_7tev[k][ID_ZH] >> CSerrPlus_7tev[k][ID_ZH] >> CSerrMinus_7tev[k][ID_ZH] >> CSscaleErrPlus_7tev[k][ID_ZH]
+	   >> CSscaleErrMinus_7tev[k][ID_ZH] >> CSpdfErrPlus_7tev[k][ID_ZH] >> CSpdfErrMinus_7tev[k][ID_ZH];
+      k++;
+    }
+  N_CS_7tev[ID_ZH] = k;
   file.close();
-
+     
+  k = 0;
   fileName = fileLoc+"/7TeV-WH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_7tev[ID_WH]; k++){
-
-    file >> mass_XS_7tev[k][ID_WH] >> CS_7tev[k][ID_WH] >> CSerrPlus_7tev[k][ID_WH] >> CSerrMinus_7tev[k][ID_WH] >> CSscaleErrPlus_7tev[k][ID_WH]
-	 >> CSscaleErrMinus_7tev[k][ID_WH] >> CSpdfErrPlus_7tev[k][ID_WH] >> CSpdfErrMinus_7tev[k][ID_WH];
-  }
+  while (file.good())
+    {
+      
+      file >> mass_XS_7tev[k][ID_WH] >> CS_7tev[k][ID_WH] >> CSerrPlus_7tev[k][ID_WH] >> CSerrMinus_7tev[k][ID_WH] >> CSscaleErrPlus_7tev[k][ID_WH]
+	   >> CSscaleErrMinus_7tev[k][ID_WH] >> CSpdfErrPlus_7tev[k][ID_WH] >> CSpdfErrMinus_7tev[k][ID_WH];
+      k++;
+    }
+  N_CS_7tev[ID_WH] = k;
   file.close();
-
+      
   // ---------------- Read 8 TeV CS into memory ------------------ //         
+  k = 0;
   fileName = fileLoc+"/8TeV-ggH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_8tev[ID_ggToH]; k++){
-
-    file >> mass_XS_8tev[k][ID_ggToH] >> CS_8tev[k][ID_ggToH] >> CSerrPlus_8tev[k][ID_ggToH] >> CSerrMinus_8tev[k][ID_ggToH] 
-	 >> CSscaleErrPlus_8tev[k][ID_ggToH] >> CSscaleErrMinus_8tev[k][ID_ggToH] >> CSpdfErrPlus_8tev[k][ID_ggToH] >> CSpdfErrMinus_8tev[k][ID_ggToH];
-  
+  while (file.good())
+    {
+	
+      file >> mass_XS_8tev[k][ID_ggToH] >> CS_8tev[k][ID_ggToH] >> CSerrPlus_8tev[k][ID_ggToH] >> CSerrMinus_8tev[k][ID_ggToH] 
+	   >> CSscaleErrPlus_8tev[k][ID_ggToH] >> CSscaleErrMinus_8tev[k][ID_ggToH] >> CSpdfErrPlus_8tev[k][ID_ggToH] >> CSpdfErrMinus_8tev[k][ID_ggToH];
+      k++;
   }
+  N_CS_8tev[ID_ggToH] = k;
   file.close();
 
+  k = 0;
   fileName = fileLoc+"/8TeV-vbfH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_8tev[ID_VBF]; k++){
-
-    file >> mass_XS_8tev[k][ID_VBF] >> CS_8tev[k][ID_VBF] >> CSerrPlus_8tev[k][ID_VBF] >> CSerrMinus_8tev[k][ID_VBF] >> CSscaleErrPlus_8tev[k][ID_VBF]
-	 >> CSscaleErrMinus_8tev[k][ID_VBF] >> CSpdfErrPlus_8tev[k][ID_VBF] >> CSpdfErrMinus_8tev[k][ID_VBF];
-
-  }
+  while (file.good())
+    {
+      file >> mass_XS_8tev[k][ID_VBF] >> CS_8tev[k][ID_VBF] >> CSerrPlus_8tev[k][ID_VBF] >> CSerrMinus_8tev[k][ID_VBF] >> CSscaleErrPlus_8tev[k][ID_VBF]
+	   >> CSscaleErrMinus_8tev[k][ID_VBF] >> CSpdfErrPlus_8tev[k][ID_VBF] >> CSpdfErrMinus_8tev[k][ID_VBF];
+      k++;
+    }
+  N_CS_8tev[ID_VBF] = k;
   file.close();
 
+  k = 0;
   fileName = fileLoc+"/8TeV-ttH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_8tev[ID_ttH]; k++){
-
-    file >> mass_XS_8tev[k][ID_ttH] >> CS_8tev[k][ID_ttH] >> CSerrPlus_8tev[k][ID_ttH] >> CSerrMinus_8tev[k][ID_ttH] >> CSscaleErrPlus_8tev[k][ID_ttH]
-	 >> CSscaleErrMinus_8tev[k][ID_ttH] >> CSpdfErrPlus_8tev[k][ID_ttH] >> CSpdfErrMinus_8tev[k][ID_ttH];
-
-  }
+  while (file.good())
+    {
+      
+      file >> mass_XS_8tev[k][ID_ttH] >> CS_8tev[k][ID_ttH] >> CSerrPlus_8tev[k][ID_ttH] >> CSerrMinus_8tev[k][ID_ttH] >> CSscaleErrPlus_8tev[k][ID_ttH]
+	   >> CSscaleErrMinus_8tev[k][ID_ttH] >> CSpdfErrPlus_8tev[k][ID_ttH] >> CSpdfErrMinus_8tev[k][ID_ttH];
+      k++;
+    }
+  N_CS_8tev[ID_ttH] = k;
   file.close();
 
+  k = 0;
   fileName = fileLoc+"/8TeV-ZH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_8tev[ID_ZH]; k++){
-
-    file >> mass_XS_8tev[k][ID_ZH] >> CS_8tev[k][ID_ZH] >> CSerrPlus_8tev[k][ID_ZH] >> CSerrMinus_8tev[k][ID_ZH] >> CSscaleErrPlus_8tev[k][ID_ZH]
-	 >> CSscaleErrMinus_8tev[k][ID_ZH] >> CSpdfErrPlus_8tev[k][ID_ZH] >> CSpdfErrMinus_8tev[k][ID_ZH];
-  }
+  while (file.good())
+    {
+      
+      file >> mass_XS_8tev[k][ID_ZH] >> CS_8tev[k][ID_ZH] >> CSerrPlus_8tev[k][ID_ZH] >> CSerrMinus_8tev[k][ID_ZH] >> CSscaleErrPlus_8tev[k][ID_ZH]
+	   >> CSscaleErrMinus_8tev[k][ID_ZH] >> CSpdfErrPlus_8tev[k][ID_ZH] >> CSpdfErrMinus_8tev[k][ID_ZH];
+      k++;
+    }
+  N_CS_8tev[ID_ZH] = k;
   file.close();
-
+      
+  k = 0;
   fileName = fileLoc+"/8TeV-WH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_8tev[ID_WH]; k++){
-
-    file >> mass_XS_8tev[k][ID_WH] >> CS_8tev[k][ID_WH] >> CSerrPlus_8tev[k][ID_WH] >> CSerrMinus_8tev[k][ID_WH] >> CSscaleErrPlus_8tev[k][ID_WH]
-	 >> CSscaleErrMinus_8tev[k][ID_WH] >> CSpdfErrPlus_8tev[k][ID_WH] >> CSpdfErrMinus_8tev[k][ID_WH];
+  while (file.good())
+    {
+      
+      file >> mass_XS_8tev[k][ID_WH] >> CS_8tev[k][ID_WH] >> CSerrPlus_8tev[k][ID_WH] >> CSerrMinus_8tev[k][ID_WH] >> CSscaleErrPlus_8tev[k][ID_WH]
+	   >> CSscaleErrMinus_8tev[k][ID_WH] >> CSpdfErrPlus_8tev[k][ID_WH] >> CSpdfErrMinus_8tev[k][ID_WH];
+      k++;
   }
+  N_CS_8tev[ID_WH] = k;
   file.close();
-
-
+      
+      
   // ---------------- Read 14 TeV CS into memory ------------------ //         
+  k = 0;
   fileName = fileLoc+"/14TeV-ggH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_14tev[ID_ggToH]; k++){
-
-    file >> mass_XS_14tev[k][ID_ggToH] >> CS_14tev[k][ID_ggToH] >> CSerrPlus_14tev[k][ID_ggToH] >> CSerrMinus_14tev[k][ID_ggToH] 
-	 >> CSscaleErrPlus_14tev[k][ID_ggToH] >> CSscaleErrMinus_14tev[k][ID_ggToH] >> CSpdfErrPlus_14tev[k][ID_ggToH] >> CSpdfErrMinus_14tev[k][ID_ggToH];
-  
+  while (file.good())
+    {
+      
+      file >> mass_XS_14tev[k][ID_ggToH] >> CS_14tev[k][ID_ggToH] >> CSerrPlus_14tev[k][ID_ggToH] >> CSerrMinus_14tev[k][ID_ggToH] 
+	   >> CSscaleErrPlus_14tev[k][ID_ggToH] >> CSscaleErrMinus_14tev[k][ID_ggToH] >> CSpdfErrPlus_14tev[k][ID_ggToH] >> CSpdfErrMinus_14tev[k][ID_ggToH];
+      k++;
   }
+  N_CS_14tev[ID_ggToH] = k;
   file.close();
 
+  k = 0;
   fileName = fileLoc+"/14TeV-vbfH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_14tev[ID_VBF]; k++){
-
-    file >> mass_XS_14tev[k][ID_VBF] >> CS_14tev[k][ID_VBF] >> CSerrPlus_14tev[k][ID_VBF] >> CSerrMinus_14tev[k][ID_VBF] >> CSscaleErrPlus_14tev[k][ID_VBF]
-	 >> CSscaleErrMinus_14tev[k][ID_VBF] >> CSpdfErrPlus_14tev[k][ID_VBF] >> CSpdfErrMinus_14tev[k][ID_VBF];
-
+  while (file.good())
+    {
+      
+      file >> mass_XS_14tev[k][ID_VBF] >> CS_14tev[k][ID_VBF] >> CSerrPlus_14tev[k][ID_VBF] >> CSerrMinus_14tev[k][ID_VBF] >> CSscaleErrPlus_14tev[k][ID_VBF]
+	   >> CSscaleErrMinus_14tev[k][ID_VBF] >> CSpdfErrPlus_14tev[k][ID_VBF] >> CSpdfErrMinus_14tev[k][ID_VBF];
+      k++;
   }
+  N_CS_14tev[ID_VBF] = k;
   file.close();
 
+  k = 0;
   fileName = fileLoc+"/14TeV-ttH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_14tev[ID_ttH]; k++){
-
-    file >> mass_XS_14tev[k][ID_ttH] >> CS_14tev[k][ID_ttH] >> CSerrPlus_14tev[k][ID_ttH] >> CSerrMinus_14tev[k][ID_ttH] >> CSscaleErrPlus_14tev[k][ID_ttH]
-	 >> CSscaleErrMinus_14tev[k][ID_ttH] >> CSpdfErrPlus_14tev[k][ID_ttH] >> CSpdfErrMinus_14tev[k][ID_ttH];
-
+  while (file.good())
+    {
+      
+      file >> mass_XS_14tev[k][ID_ttH] >> CS_14tev[k][ID_ttH] >> CSerrPlus_14tev[k][ID_ttH] >> CSerrMinus_14tev[k][ID_ttH] >> CSscaleErrPlus_14tev[k][ID_ttH]
+	   >> CSscaleErrMinus_14tev[k][ID_ttH] >> CSpdfErrPlus_14tev[k][ID_ttH] >> CSpdfErrMinus_14tev[k][ID_ttH];
+      k++;
   }
+  N_CS_14tev[ID_ttH] = k;
   file.close();
 
+  k = 0;
   fileName = fileLoc+"/14TeV-ZH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_14tev[ID_ZH]; k++){
-
-    file >> mass_XS_14tev[k][ID_ZH] >> CS_14tev[k][ID_ZH] >> CSerrPlus_14tev[k][ID_ZH] >> CSerrMinus_14tev[k][ID_ZH] >> CSscaleErrPlus_14tev[k][ID_ZH]
-	 >> CSscaleErrMinus_14tev[k][ID_ZH] >> CSpdfErrPlus_14tev[k][ID_ZH] >> CSpdfErrMinus_14tev[k][ID_ZH];
-  }
+  while (file.good())
+    {
+      
+      file >> mass_XS_14tev[k][ID_ZH] >> CS_14tev[k][ID_ZH] >> CSerrPlus_14tev[k][ID_ZH] >> CSerrMinus_14tev[k][ID_ZH] >> CSscaleErrPlus_14tev[k][ID_ZH]
+	   >> CSscaleErrMinus_14tev[k][ID_ZH] >> CSpdfErrPlus_14tev[k][ID_ZH] >> CSpdfErrMinus_14tev[k][ID_ZH];
+      k++;
+    }
+  N_CS_14tev[ID_ZH] = k;
   file.close();
 
+  k = 0;
   fileName = fileLoc+"/14TeV-WH.txt";
   file.open(fileName.c_str());
   if (!file.is_open()){ cout << "Could not find file "+fileName <<endl; exit(1);}
-  for(int k = 0; k < N_CS_14tev[ID_WH]; k++){
-
-    file >> mass_XS_14tev[k][ID_WH] >> CS_14tev[k][ID_WH] >> CSerrPlus_14tev[k][ID_WH] >> CSerrMinus_14tev[k][ID_WH] >> CSscaleErrPlus_14tev[k][ID_WH]
-	 >> CSscaleErrMinus_14tev[k][ID_WH] >> CSpdfErrPlus_14tev[k][ID_WH] >> CSpdfErrMinus_14tev[k][ID_WH];
+  while (file.good())
+    {
+      
+      file >> mass_XS_14tev[k][ID_WH] >> CS_14tev[k][ID_WH] >> CSerrPlus_14tev[k][ID_WH] >> CSerrMinus_14tev[k][ID_WH] >> CSscaleErrPlus_14tev[k][ID_WH]
+	   >> CSscaleErrMinus_14tev[k][ID_WH] >> CSpdfErrPlus_14tev[k][ID_WH] >> CSpdfErrMinus_14tev[k][ID_WH];
+      k++;
   }
+  N_CS_14tev[ID_WH] = k;
   file.close();
+
 
 
 }
@@ -1039,80 +1087,11 @@ double HiggsCSandWidth::getInterpXS(int sqrts, int ID, double mH, int maxI, doub
 
   int i = 0;
   double reqCS = 0;
-  double step = 0;
   const int index = 4;
   double xmh[index], sig[index];
   
-  if(sqrts == 7)
-    {
-      if(ID == ID_ggToH || ID == ID_VBF)
-	{
-	  if(mH <= 110 ){step = 1; i = (int)((mH - 80)/step); }
-	  if(mH > 110 && mH <= 120 ){step = 0.5; i = (int)(30 + (mH - 110)/step); }
-	  if(mH > 120 && mH <= 130 ){step = 0.1; i = (int)(50 + (mH - 120)/step); }
-	  if(mH > 130 && mH <= 150 ){step = 0.5; i = (int)(150 + (mH - 130)/step); }
-	  if(mH > 150 && mH <= 300 ){step = 2; i = (int)(190 + (mH - 150)/step); }
-	  if(mH > 300 && mH <= 350 ){step = 5; i = (int)(265 + (mH-300)/step); }
-	  if(mH > 350 && mH <= 400 ){step = 10; i = (int)(275 + (mH-350)/step); }
-	  if(mH > 400){step = 20; i = (int)(280 + (mH-400)/step); }
-	}
-      else if(ID == ID_WH || ID == ID_ZH || ID == ID_ttH)
-	{
-	  if(mH <= 110 ){step = 1; i = (int)((mH - 80)/step); }
-	  if(mH > 110 && mH <= 120 ){step = 0.5; i = (int)(30 + (mH - 110)/step); }
-	  if(mH > 120 && mH <= 130 ){step = 0.1; i = (int)(50 + (mH - 120)/step); }
-	  if(mH > 130 && mH <= 150 ){step = 0.5; i = (int)(150 + (mH - 130)/step); }
-	  if(mH > 150 && mH <= 300 ){step = 2; i = (int)(190 + (mH - 150)/step); }
-	  if(mH > 300 && mH <= 350 ){step = 5; i = (int)(265 + (mH-300)/step); }
-	  if(mH > 350 && mH <= 400 ){step = 10; i = (int)(275 + (mH-350)/step); }
-	  if(mH > 400) return 0;
-	}
-    }
-  else if (sqrts == 8)
-    {
-      if(ID == ID_ggToH || ID == ID_VBF)
-	{
-	  if(mH <= 110 ){step = 1; i = (int)((mH - 80)/step); }
-	  if(mH > 110 && mH <= 120 ){step = 0.5; i = (int)(30 + (mH - 110)/step); }
-	  if(mH > 120 && mH <= 130 ){step = 0.1; i = (int)(50 + (mH - 120)/step); }
-	  if(mH > 130 && mH <= 150 ){step = 0.5; i = (int)(150 + (mH - 130)/step); }
-	  if(mH > 150 && mH <= 300 ){step = 2; i = (int)(190 + (mH - 150)/step); }
-	  if(mH > 300 && mH <= 350 ){step = 5; i = (int)(265 + (mH-300)/step); }
-	  if(mH > 350 && mH <= 400 ){step = 10; i = (int)(275 + (mH-350)/step); }
-	  if(mH > 400){step = 20; i = (int)(280 + (mH-400)/step); }
-	}
-      else if(ID == ID_WH || ID == ID_ZH || ID == ID_ttH)
-	{
-	  if(mH <= 110 ){step = 1; i = (int)((mH - 80)/step); }
-	  if(mH > 110 && mH <= 120 ){step = 0.5; i = (int)(30 + (mH - 110)/step); }
-	  if(mH > 120 && mH <= 130 ){step = 0.1; i = (int)(50 + (mH - 120)/step); }
-	  if(mH > 130 && mH <= 150 ){step = 0.5; i = (int)(150 + (mH - 130)/step); }
-	  if(mH > 150 && mH <= 300 ){step = 2; i = (int)(190 + (mH - 150)/step); }
-	  if(mH > 300 && mH <= 350 ){step = 5; i = (int)(265 + (mH-300)/step); }
-	  if(mH > 350 && mH <= 400 ){step = 10; i = (int)(275 + (mH-350)/step); }
-	  if(mH > 400) return 0;
-	}
-      else{ return 0;}
-    }
-  else if(sqrts == 14)
-    {
-      if(ID == ID_ggToH || ID == ID_VBF)
-	{
-	  if(mH <= 200 ){step = 5; i = (int)((mH - 90)/step); }
-	  if(mH > 200 && mH <= 300 ){step = 10; i = (int)(22 + (mH - 200)/step); }
-	  if(mH > 300 && mH <= 400 ){step = 20; i = (int)(32 + (mH - 300)/step); }
-	  if(mH > 400){step = 50; i = (int)(37 + (mH - 400)/step); }
-	}
-      else if(ID == ID_WH || ID == ID_ZH || ID == ID_ttH)
-	{
-	  if(mH <= 200 ){step = 5; i = (int)((mH - 90)/step); }
-	  if(mH > 200 && mH <= 300 ){step = 10; i = (int)(22 + (mH - 200)/step); }
-	  if(mH > 300) return 0;
-	}
-      else{ return 0;}
-    }
-  else{cout << "HiggsCSandWidth --- unknown sqrts! Choose 7,8, or 14." << endl; return -99;}
- 
+  i = searchArray(ID, maxI, mhArray, mH);
+
   //Do the interpolation
   if(i < 1){i = 1;}
   if(i+2 >= maxI){i = maxI - 3;}
@@ -1125,10 +1104,11 @@ double HiggsCSandWidth::getInterpXS(int sqrts, int ID, double mH, int maxI, doub
   reqCS = gs->Eval(mH);
   delete gs;
   delete graph;
-
+  
   return reqCS;  
-
+  
 }
+
 
 
 double HiggsCSandWidth::getInterpBRWidth(bool width, int ID, double mH, int maxI, double mhArray[], double varArray[][26])
@@ -1138,16 +1118,8 @@ double HiggsCSandWidth::getInterpBRWidth(bool width, int ID, double mH, int maxI
 
   int i = 0;
   double reqBR = 0;
-  double step = 0;
 
-  if(mH <= 110 ){step = 1; i = (int)((mH - 80)/step); }
-  if(mH > 110 && mH <= 120 ){step = 0.5; i = (int)(30 + (mH - 110)/step); }
-  if(mH > 120 && mH <= 130 ){step = 0.1; i = (int)(50 + (mH - 120)/step); }
-  if(mH > 130 && mH <= 150 ){step = 0.5; i = (int)(150 + (mH - 130)/step); }
-  if(mH > 150 && mH <= 300 ){step = 2; i = (int)(190 + (mH - 150)/step); }
-  if(mH > 300 && mH <= 350 ){step = 5; i = (int)(265 + (mH-300)/step); }
-  if(mH > 350 && mH <= 400 ){step = 10; i = (int)(275 + (mH-350)/step); }
-  if(mH > 400){step = 20; i = (int)(280 + (mH-400)/step); }
+  i = searchArray(ID, maxI, mhArray, mH);
 
   if(i < 1){i = 1;}
   if(i+2 >= maxI){i = maxI - 3;}
@@ -1186,7 +1158,51 @@ double HiggsCSandWidth::getInterpBRWidth(bool width, int ID, double mH, int maxI
 
 
 
+int HiggsCSandWidth::searchArray(int ID, int maxI, double mhArray[][6], double mh)
+{
+  
+  int min_dist = 10000; 
+  int min_index = 0; 
 
+  for( int i = 0; i < maxI; i++ )
+    { 
+      if( mhArray[i][ID] == mh ) { return i;} 
+      else {
+	if ( abs(mhArray[i][ID] - mh) < min_dist ) 
+	  {
+	    min_dist = abs(mhArray[i][ID] - mh);
+	    min_index = i;
+	    int dist = mhArray[i][ID] - mh;
+	    if(dist > 0){ return min_index;}
+	  }
+      }
+    }
+  return min_index;
+
+}
+
+int HiggsCSandWidth::searchArray(int ID, int maxI, double mhArray[], double mh)
+{
+  
+  int min_dist = 10000; 
+  int min_index = 0; 
+
+  for( int i = 0; i < maxI; i++ )
+    { 
+      if( mhArray[i] == mh ) { return i;} 
+      else {
+	if ( abs(mhArray[i] - mh) < min_dist ) 
+	  {
+	    min_dist = abs(mhArray[i] - mh);
+	    min_index = i;
+	    int dist = mhArray[i] - mh;
+	    if(dist > 0){ return min_index;}
+	  }
+      }
+    }
+  return min_index;
+
+}
 
 
 #endif
