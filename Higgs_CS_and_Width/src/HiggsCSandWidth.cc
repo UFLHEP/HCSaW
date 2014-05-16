@@ -395,8 +395,10 @@ double HiggsCSandWidth::HiggsCS(int ID, double mH, double sqrts){
   if(sqrts != 7 && sqrts != 8 && sqrts != 14) return -1;
   //Don't interpolate btw 0 and numbers for mH 400
   if(ID > ID_VBF && mH > max_MH_Assoc) return 0;
-
-  // If mH is out of range return -1                                           
+  int i_max = 5;
+  if (ID > ID_VBF && mH > max_MH_Assoc) i_max = 2;
+ 
+ // If mH is out of range return -1                                           
   // else find what array number to read         
   if( mH < min_MH || mH > max_MH){ return -1;}
   else{
@@ -405,7 +407,7 @@ double HiggsCSandWidth::HiggsCS(int ID, double mH, double sqrts){
       {
 	if(ID == 0)
 	  {
-	    for(int i = 1; i <= 5; i++)
+	    for(int i = 1; i <= i_max; i++)
 	      {
 		val += getInterpXS(sqrts,i,mH,N_CS_7tev[i],mass_XS_7tev,CS_7tev);
 	      }
@@ -416,7 +418,7 @@ double HiggsCSandWidth::HiggsCS(int ID, double mH, double sqrts){
       {
 	if(ID == 0)
 	  {
-	    for(int i = 1; i <= 5; i++)
+	    for(int i = 1; i <= i_max; i++)
 	      {
 		val += getInterpXS(sqrts,i,mH,N_CS_8tev[i],mass_XS_8tev,CS_8tev);
 	      }
@@ -427,7 +429,7 @@ double HiggsCSandWidth::HiggsCS(int ID, double mH, double sqrts){
       {
         if(ID == 0)
           {
-            for(int i =1; i <= 5; i++)
+            for(int i =1; i <= i_max; i++)
 	      { 
 		val += getInterpXS(sqrts,i,mH,N_CS_14tev[i],mass_XS_14tev,CS_14tev);
 	      } 
@@ -464,6 +466,8 @@ double HiggsCSandWidth::HiggsCSErrPlus(int ID, double mH, double sqrts){
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                        
   if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
+  int i_max = 5;
+  if (ID > ID_VBF && mH > max_MH_Assoc) i_max = 2;
 
   // If mH is out of range return -1                                                                        
   // else find what array number to read                                          
@@ -475,7 +479,7 @@ double HiggsCSandWidth::HiggsCSErrPlus(int ID, double mH, double sqrts){
 	if(ID == ID_Total)
 	  {
 	    double tmpVal = 0;
-	    for(int i = 1; i <= 5; i++)
+	    for(int i = 1; i <= i_max; i++)
 	      {
 		double interp = getInterpXS(sqrts,i,mH,N_CS_7tev[i],mass_XS_7tev,CSerrPlus_7tev);
 		tmpVal += interp*interp;
@@ -489,7 +493,7 @@ double HiggsCSandWidth::HiggsCSErrPlus(int ID, double mH, double sqrts){
 	if(ID == ID_Total)
           {
             double tmpVal = 0;
-	    for(int i = 1; i <= 5; i++)
+	    for(int i = 1; i <= i_max; i++)
 	      { 
 		double interp = getInterpXS(sqrts,i,mH,N_CS_8tev[i],mass_XS_8tev,CSerrPlus_8tev);
 		tmpVal += interp*interp;
@@ -503,7 +507,7 @@ double HiggsCSandWidth::HiggsCSErrPlus(int ID, double mH, double sqrts){
 	if(ID == ID_Total)
           {
             double tmpVal = 0;
-	    for(int i = 1; i <= 5; i++)
+	    for(int i = 1; i <= i_max; i++)
 	      { 
 		double interp = getInterpXS(sqrts,i,mH,N_CS_14tev[i],mass_XS_14tev,CSerrPlus_14tev);
 		tmpVal += interp*interp;
@@ -541,7 +545,8 @@ double HiggsCSandWidth::HiggsCSErrMinus(int ID, double mH, double sqrts){
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                                                        
   if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
-
+  int i_max = 5;
+  if (ID > ID_VBF && mH > max_MH_Assoc) i_max = 2;
 
   // If mH is out of range return -1                                                                           
   // else find what array number to read                                                                 
@@ -553,7 +558,7 @@ double HiggsCSandWidth::HiggsCSErrMinus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-	    for(int i = 1; i <= 5; i++)
+	    for(int i = 1; i <= i_max; i++)
 	      { 
 		double interp = getInterpXS(sqrts,i,mH,N_CS_7tev[i],mass_XS_7tev,CSerrMinus_7tev);
 		tmpVal += interp*interp;
@@ -567,7 +572,7 @@ double HiggsCSandWidth::HiggsCSErrMinus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_8tev[i],mass_XS_8tev,CSerrMinus_8tev);
                 tmpVal += interp*interp;
@@ -581,7 +586,7 @@ double HiggsCSandWidth::HiggsCSErrMinus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_14tev[i],mass_XS_14tev,CSerrMinus_14tev);
                 tmpVal += interp*interp;
@@ -620,6 +625,8 @@ double HiggsCSandWidth::HiggsCSscaleErrPlus(int ID, double mH, double sqrts){
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                                           
   if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
+  int i_max = 5;
+  if (ID > ID_VBF && mH > max_MH_Assoc) i_max = 2;
 
   // If mH is out of range return -1                                                         
   // else find what array number to read                                                      
@@ -632,7 +639,7 @@ double HiggsCSandWidth::HiggsCSscaleErrPlus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_7tev[i],mass_XS_7tev,CSscaleErrPlus_7tev);
                 tmpVal += interp*interp;
@@ -646,7 +653,7 @@ double HiggsCSandWidth::HiggsCSscaleErrPlus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_8tev[i],mass_XS_8tev,CSscaleErrPlus_8tev);
                 tmpVal += interp*interp;
@@ -660,7 +667,7 @@ double HiggsCSandWidth::HiggsCSscaleErrPlus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_14tev[i],mass_XS_14tev,CSscaleErrPlus_14tev);
                 tmpVal += interp*interp;
@@ -699,7 +706,8 @@ double HiggsCSandWidth::HiggsCSscaleErrMinus(int ID, double mH, double sqrts){
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                                   
   if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
-
+  int i_max = 5;
+  if (ID > ID_VBF && mH > max_MH_Assoc) i_max = 2;
 
   // If mH is out of range return -1                        
   // else find what array number to read                              
@@ -711,7 +719,7 @@ double HiggsCSandWidth::HiggsCSscaleErrMinus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_7tev[i],mass_XS_7tev,CSscaleErrMinus_7tev);
                 tmpVal += interp*interp;
@@ -725,7 +733,7 @@ double HiggsCSandWidth::HiggsCSscaleErrMinus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_8tev[i],mass_XS_8tev,CSscaleErrMinus_8tev);
                 tmpVal += interp*interp;
@@ -739,7 +747,7 @@ double HiggsCSandWidth::HiggsCSscaleErrMinus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_14tev[i],mass_XS_14tev,CSscaleErrMinus_14tev);
                 tmpVal += interp*interp;
@@ -777,6 +785,8 @@ double HiggsCSandWidth::HiggsCSpdfErrPlus(int ID, double mH, double sqrts){
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400                                                  
   if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
+  int i_max = 5;
+  if (ID > ID_VBF && mH > max_MH_Assoc) i_max = 2;
 
   // If mH is out of range return -1                                                                                  
   // else find what array number to read                                                              
@@ -788,7 +798,7 @@ double HiggsCSandWidth::HiggsCSpdfErrPlus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_7tev[i],mass_XS_7tev,CSpdfErrPlus_7tev);
                 tmpVal += interp*interp;
@@ -802,7 +812,7 @@ double HiggsCSandWidth::HiggsCSpdfErrPlus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_8tev[i],mass_XS_8tev,CSpdfErrPlus_8tev);
                 tmpVal += interp*interp;
@@ -816,7 +826,7 @@ double HiggsCSandWidth::HiggsCSpdfErrPlus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_14tev[i],mass_XS_14tev,CSpdfErrPlus_14tev);
                 tmpVal += interp*interp;
@@ -856,7 +866,8 @@ double HiggsCSandWidth::HiggsCSpdfErrMinus(int ID, double mH, double sqrts){
   if(sqrts != 7 && sqrts != 8 && sqrts != 14){return -1;}
   //Don't interpolate btw 0 and numbers for mH 400             
   if(ID > ID_VBF && mH > max_MH_Assoc){return 0;}
-
+  int i_max = 5;
+  if (ID > ID_VBF && mH > max_MH_Assoc) i_max = 2;
 
   // If mH is out of range return -1                                                              
   // else find what array number to read                            
@@ -868,7 +879,7 @@ double HiggsCSandWidth::HiggsCSpdfErrMinus(int ID, double mH, double sqrts){
 	if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_7tev[i],mass_XS_7tev,CSpdfErrMinus_7tev);
                 tmpVal += interp*interp;
@@ -882,7 +893,7 @@ double HiggsCSandWidth::HiggsCSpdfErrMinus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_8tev[i],mass_XS_8tev,CSpdfErrMinus_8tev);
                 tmpVal += interp*interp;
@@ -896,7 +907,7 @@ double HiggsCSandWidth::HiggsCSpdfErrMinus(int ID, double mH, double sqrts){
         if(ID == ID_Total)
           {
             double tmpVal = 0;
-            for(int i = 1; i <= 5; i++)
+            for(int i = 1; i <= i_max; i++)
               {
                 double interp = getInterpXS(sqrts,i,mH,N_CS_14tev[i],mass_XS_14tev,CSpdfErrMinus_14tev);
                 tmpVal += interp*interp;
