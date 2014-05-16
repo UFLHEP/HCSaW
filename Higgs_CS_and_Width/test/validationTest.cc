@@ -16,7 +16,7 @@ int main()
   string fileName_[6] = {"Total_cs","GluGlu_cs","VBF_cs","WH_cs","ZH_cs","ttH_cs"};
   int sqrts_[3] = {7,8,14};
 
-  HiggsCSandWidth *myCSW = new HiggsCSandWidth("YR2","../txtFiles");
+  HiggsCSandWidth *myCSW = new HiggsCSandWidth("YR3","../txtFiles");
 
   for (int s = 0; s < 3; s++)
     {
